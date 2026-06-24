@@ -1,0 +1,55 @@
+var SHEET_URL = 'https://docs.google.com/spreadsheets/d/1oTb6kihmAx3504PA7m7F6AoTuhgBXrIpTwjahDEFnIA/edit?gid=0#gid=0';
+var SHEET_NAME = 'Leads';
+
+var HEADERS = ['Timestamp', 'Name', 'Email', 'Phone', 'Service', 'Message'];
+
+function doPost(e) {
+  try {
+    var ss    = SpreadsheetApp.openByUrl(SHEET_URL);
+    var sheet = getOrCreateSheet(ss, SHEET_NAME);
+
+    if (sheet.getLastRow() === 0) {
+      sheet.appendRow(HEADERS);
+      sheet.getRange(1, 1, 1, HEADERS.length)
+           .setFontWeight('bold')
+           .setBackground('#1e293b')
+           .setFontColor('#ffffff');
+      sheet.setFrozenRows(1);
+    }
+
+    var p = e.parameter || {};
+    sheet.appendRow([
+      new Date(),
+      p.Name    || '',
+      p.Email   || '',
+      p.Phone   || '',
+      p.Service || '',
+      p.Message || ''
+    ]);
+
+    sheet.autoResizeColumns(1, HEADERS.length);
+
+    return ContentService
+      .createTextOutput(JSON.stringify({ status: 'success' }))
+      .setMimeType(ContentService.MimeType.JSON);
+
+  } catch (err) {
+    return ContentService
+      .createTextOutput(JSON.stringify({ status: 'error', message: err.toString() }))
+      .setMimeType(ContentService.MimeType.JSON);
+  }
+}
+
+function doGet() {
+  return ContentService
+    .createTextOutput('Digital Sunil contact script is live')
+    .setMimeType(ContentService.MimeType.TEXT);
+}
+
+function getOrCreateSheet(ss, name) {
+  var sheet = ss.getSheetByName(name);
+  if (!sheet) {
+    sheet = ss.insertSheet(name);
+  }
+  return sheet;
+}
