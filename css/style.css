@@ -2686,8 +2686,18 @@ footer {
   .testimonials-grid    { grid-template-columns: 1fr; }
   .trusted-logos        { gap: 24px; }
   .hero-grid            { grid-template-columns: 1fr; gap: 48px; }
-  .hero-img-frame       { max-width: 340px; }
-  .rating-card          { right: 0; }
+  .hero-img-frame       { max-width: 340px; height: 380px; margin-bottom: 72px; }
+  .navy-arch            { top: 62%; left: 50%; }
+  .orange-circle        { top: 62%; left: 50%; }
+  .orange-ring          { top: 62%; left: 50%; }
+  .hero-center-img      { left: 50%; transform: translateX(-50%); width: 90%; }
+  .rating-card          {
+    bottom: -64px;
+    right: auto;
+    left: 50%;
+    transform: translateX(-50%);
+    white-space: nowrap;
+  }
   .cta-navy-inner       { padding: 32px 24px; gap: 24px; }
 }
 @media (max-width: 480px) {
